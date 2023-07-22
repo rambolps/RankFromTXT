@@ -1,5 +1,5 @@
 # RankFromTXT
-Quick Command-Line Program, to Rank Order Options from a TXT File
+Quick Command-Line Program, to Rank Order Options from a TXT File. Written In C++ Using Visual Studio.
 
 ## Usage
 Run the command with the TXT file you want to use as the first argument
