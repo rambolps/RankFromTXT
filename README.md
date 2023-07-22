@@ -9,5 +9,5 @@ Eg. >rft \<text_file>
 Eg. >rft example.txt
 
 ## Text File Formatting
-The text file needs to contain each item (choice), and on seperate line. Blank Lines will be ignored.
+The text file needs to contain each item (choice), on a seperate line. Blank Lines will be ignored.
 
