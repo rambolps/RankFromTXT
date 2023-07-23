@@ -118,14 +118,45 @@ void reverseArray(std::string arr[], int start, int end)
     }
 }
 
+void insertionSort(std::string arr[], int n)
+{
+    int i, j;
+    std::string key;
+    for (i = 1; i < n; i++) {
+        key = arr[i];
+        j = i - 1;
+
+        // Move elements of arr[0..i-1],
+        // that are greater than key,
+        // to one position ahead of their
+        // current position
+        while (j >= 0 && moreThan(arr[j], key)) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+}
+
 std::string* rankGame(std::string choices[], int numChoices) {
 
     std::string* rankedChoices = choices;
 
+    std::cout << "Would You Like To Use Insertion sort [Y / n]: ";
+    char answer;
+    std::cin >> answer;
 
-    quickSort(rankedChoices, 0, numChoices - 1);
+
+
+    if (answer == 'y' || answer == 'Y') {
+        insertionSort(rankedChoices,numChoices);
+    }
+    else {
+        //TODO replace quick sort with merge sort
+        quickSort(rankedChoices, 0, numChoices - 1);
+    }
+
     reverseArray(rankedChoices, 0, numChoices - 1);
-
 
     return rankedChoices;
 }
