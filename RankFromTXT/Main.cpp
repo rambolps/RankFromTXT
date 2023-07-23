@@ -62,11 +62,12 @@ int main(int argc, char* argv[]) {
 
 	std::cout << "\nReady To Start Ranking? [Y/n]: ";
 
-	char answer[2];
-	std::cin.get(answer,2);
+	char answer;
+	std::cin >> answer;
 	std::string* rankedChoices = new std::string[numChoices];
 
-	if (answer[0] == 'y' || answer[0] == 'Y') {
+	if (answer == 'y' || answer == 'Y') {
+		std::cout << std::endl;
 		rankedChoices = rankGame(choices, numChoices);
 	}
 	else {
@@ -76,10 +77,24 @@ int main(int argc, char* argv[]) {
 
 	std::cout << "\nThe Following Is Your Ranked Choices Stored In Ranked" << argv[1] << std::endl;
 
-	for (int i = 0; i < numChoices; i++)
-	{
-		std::cout << (i + 1) << ". " << rankedChoices[i] << std::endl;
+	std::fstream rankedFile;
+	std::string rankedFileName = "Ranked_";
+	rankedFileName.append(argv[1]);
+	rankedFile.open(rankedFileName, std::ios::out);
 
+	if (rankedFile.is_open()) {
+		for (int i = 0; i < numChoices; i++)
+		{
+			std::cout << (i + 1) << ". " << rankedChoices[i] << std::endl;
+			rankedFile << (i + 1) << ". " << rankedChoices[i] << std::endl;
+		}
+
+		rankedFile.close();
+		std::cout << "\nFile Written as " << rankedFileName << std::endl;
 	}
+	else {
+		std::cout << "ERROR: Could Not Write Output File!" << std::endl;
+	}
+
 	
 } 

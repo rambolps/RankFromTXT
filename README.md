@@ -8,6 +8,12 @@ Eg. >rft \<text_file>
 
 Eg. >rft example.txt
 
+## Warning
+
+This program saves your output file as Ranked_<text_file>. For example Ranked_example.txt would be the 
+output file. It may **overwrite** any existing file with that filename!
+
+
 ## Text File Formatting
 The text file needs to contain each item (choice), on a seperate line. Blank Lines will be ignored.
 
