@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "RankGame.h"
 
 
 bool lessThanEQ(std::string one, std::string two) {
@@ -53,58 +54,7 @@ bool moreThan(std::string one, std::string two) {
     }
 }
 
-int partition(std::string arr[], int start, int end)
-{
 
-    std::string pivot = arr[start];
-
-    int count = 0;
-    for (int i = start + 1; i <= end; i++) {
-        if (lessThanEQ(arr[i],pivot))
-            count++;
-    }
-
-    // Giving pivot element its correct position
-    int pivotIndex = start + count;
-    std::swap(arr[pivotIndex], arr[start]);
-
-    // Sorting left and right parts of the pivot element
-    int i = start, j = end;
-
-    while (i < pivotIndex && j > pivotIndex) {
-
-        while (lessThanEQ(arr[i], pivot)) {
-            i++;
-        }
-
-        while (moreThan(arr[j], pivot)) {
-            j--;
-        }
-
-        if (i < pivotIndex && j > pivotIndex) {
-            std::swap(arr[i++], arr[j--]);
-        }
-    }
-
-    return pivotIndex;
-}
-
-void quickSort(std::string arr[], int start, int end)
-{
-
-    // base case
-    if (start >= end)
-        return;
-
-    // partitioning the array
-    int p = partition(arr, start, end);
-
-    // Sorting the left part
-    quickSort(arr, start, p - 1);
-
-    // Sorting the right part
-    quickSort(arr, p + 1, end);
-}
 
 void reverseArray(std::string arr[], int start, int end)
 {
@@ -138,22 +88,113 @@ void insertionSort(std::string arr[], int n)
     }
 }
 
+void merge(std::string array[], int const left, int const mid,
+    int const right)
+{
+    int const subArrayOne = mid - left + 1;
+    int const subArrayTwo = right - mid;
+
+    // Create temp arrays
+    auto* leftArray = new std::string[subArrayOne],
+        * rightArray = new std::string[subArrayTwo];
+
+    // Copy data to temp arrays leftArray[] and rightArray[]
+    for (auto i = 0; i < subArrayOne; i++)
+        leftArray[i] = array[left + i];
+    for (auto j = 0; j < subArrayTwo; j++)
+        rightArray[j] = array[mid + 1 + j];
+
+    auto indexOfSubArrayOne = 0, indexOfSubArrayTwo = 0;
+    int indexOfMergedArray = left;
+
+    // Merge the temp arrays back into array[left..right]
+    while (indexOfSubArrayOne < subArrayOne
+        && indexOfSubArrayTwo < subArrayTwo) {
+        if (lessThanEQ(leftArray[indexOfSubArrayOne], rightArray[indexOfSubArrayTwo])) {
+            array[indexOfMergedArray]
+                = leftArray[indexOfSubArrayOne];
+            indexOfSubArrayOne++;
+        }
+        else {
+            array[indexOfMergedArray]
+                = rightArray[indexOfSubArrayTwo];
+            indexOfSubArrayTwo++;
+        }
+        indexOfMergedArray++;
+    }
+
+    // Copy the remaining elements of
+    // left[], if there are any
+    while (indexOfSubArrayOne < subArrayOne) {
+        array[indexOfMergedArray]
+            = leftArray[indexOfSubArrayOne];
+        indexOfSubArrayOne++;
+        indexOfMergedArray++;
+    }
+
+    // Copy the remaining elements of
+    // right[], if there are any
+    while (indexOfSubArrayTwo < subArrayTwo) {
+        array[indexOfMergedArray]
+            = rightArray[indexOfSubArrayTwo];
+        indexOfSubArrayTwo++;
+        indexOfMergedArray++;
+    }
+    delete[] leftArray;
+    delete[] rightArray;
+}
+
+void mergeSort(std::string array[], int const begin, int const end)
+{
+    if (begin >= end)
+        return;
+
+    int mid = begin + (end - begin) / 2;
+    mergeSort(array, begin, mid);
+    mergeSort(array, mid + 1, end);
+    merge(array, begin, mid, end);
+}
+
+//void tierSort(std::string choices[], int  numChoices, int numTiers) {
+//
+//    std::string* tiers = new std::string[numChoices][numTiers];
+//}
+
 std::string* rankGame(std::string choices[], int numChoices) {
 
     std::string* rankedChoices = choices;
 
-    std::cout << "Would You Like To Use Insertion sort [Y / n]: ";
-    char answer;
-    std::cin >> answer;
+
+    //std::cout << "Would You Like To Use Pre-Tier Your Options (Recommended!) [Y / n]: ";
+    //char answerT;
+    //std::cin >> answerT;
+
+    //if (answerT == 'y' || answerT == 'Y') {
+
+    //    std::cout << "How many tiers would you like? (Max " << numChoices << " Tiers): ";
+    //    char cTier;
+    //    std::cin >> cTier;
+
+    //    int iTier = cTier - '0';
+
+    //    if (iTier > numChoices) {
+    //        iTier = numChoices;
+    //    }
+
+    //    tierSort(rankedChoices, numChoices, iTier);
+    //}
+
+    std::cout << "Would You Like To Use Insertion sort (NOT Recommended!) [Y / n]: ";
+    char answerI;
+    std::cin >> answerI;
 
 
-
-    if (answer == 'y' || answer == 'Y') {
+    if (answerI == 'y' || answerI == 'Y') {
         insertionSort(rankedChoices,numChoices);
     }
     else {
-        //TODO replace quick sort with merge sort
-        quickSort(rankedChoices, 0, numChoices - 1);
+        //TODO add tiers
+        mergeSort(rankedChoices, 0, numChoices - 1);
     }
 
     reverseArray(rankedChoices, 0, numChoices - 1);
