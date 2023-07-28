@@ -164,13 +164,35 @@ void tierSort(std::string array[], int  numChoices, int numTiers) {
         i.resize(numChoices);
 
     for (int i = 0; i < numChoices; i++) {
-        std::cout << "What tier would you like " << array[i] << ": ";
+
+        std::cout << "What tier would you like " << array[i] << " to be in: ";
         char pTier;
         std::cin >> pTier;
 
         int ipTier = pTier - '0';
+        ipTier--;
 
+        tiers[ipTier][i] = array[i];
 
+        std::cout << ipTier << std::endl;
+    }
+
+    int aPlace = 0;
+    std::string* places = new std::string[numChoices];
+
+    for (int i = 0; i < numTiers; i++) {
+
+        for (int j = 0; j < numChoices; j++) {
+            if (tiers[i][j] != "") {
+                array[aPlace] = tiers[i][j];
+                places[aPlace] = std::to_string(i);
+                aPlace++;
+            }
+        }
+    }
+
+    for (int i = 0; i < numChoices; i++) {
+        std::cout << "Rank " << places[i] <<": "<< array[i] << std::endl;
     }
 }
 
@@ -194,6 +216,9 @@ std::string* rankGame(std::string choices[], int numChoices) {
         if (iTier > numChoices) {
             iTier = numChoices;
         }
+
+
+        std::cout << "You will be ranking them from 1 to " << iTier << ". 1 being the best!" << std::endl;
 
         tierSort(rankedChoices, numChoices, iTier);
     }
