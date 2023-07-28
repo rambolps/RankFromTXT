@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "RankGame.h"
 
 
@@ -155,34 +156,47 @@ void mergeSort(std::string array[], int const begin, int const end)
     merge(array, begin, mid, end);
 }
 
-//void tierSort(std::string choices[], int  numChoices, int numTiers) {
-//
-//    std::string* tiers = new std::string[numChoices][numTiers];
-//}
+void tierSort(std::string array[], int  numChoices, int numTiers) {
+
+    std::vector<std::vector<std::string>> tiers;
+    tiers.resize(numTiers);
+    for (auto& i : tiers)
+        i.resize(numChoices);
+
+    for (int i = 0; i < numChoices; i++) {
+        std::cout << "What tier would you like " << array[i] << ": ";
+        char pTier;
+        std::cin >> pTier;
+
+        int ipTier = pTier - '0';
+
+
+    }
+}
 
 std::string* rankGame(std::string choices[], int numChoices) {
 
     std::string* rankedChoices = choices;
 
 
-    //std::cout << "Would You Like To Use Pre-Tier Your Options (Recommended!) [Y / n]: ";
-    //char answerT;
-    //std::cin >> answerT;
+    std::cout << "Would You Like To Use Pre-Tier Your Options (Recommended!) [Y / n]: ";
+    char answerT;
+    std::cin >> answerT;
 
-    //if (answerT == 'y' || answerT == 'Y') {
+    if (answerT == 'y' || answerT == 'Y') {
 
-    //    std::cout << "How many tiers would you like? (Max " << numChoices << " Tiers): ";
-    //    char cTier;
-    //    std::cin >> cTier;
+        std::cout << "How many tiers would you like? (Max " << numChoices << " Tiers): ";
+        char cTier;
+        std::cin >> cTier;
 
-    //    int iTier = cTier - '0';
+        int iTier = cTier - '0';
 
-    //    if (iTier > numChoices) {
-    //        iTier = numChoices;
-    //    }
+        if (iTier > numChoices) {
+            iTier = numChoices;
+        }
 
-    //    tierSort(rankedChoices, numChoices, iTier);
-    //}
+        tierSort(rankedChoices, numChoices, iTier);
+    }
 
     std::cout << "Would You Like To Use Insertion sort (NOT Recommended!) [Y / n]: ";
     char answerI;
